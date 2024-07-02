@@ -2285,6 +2285,9 @@ Search and manage bibliographies in Emacs.
                                                                         :weight bold))
                                                         ("SUSPENDED" . (:foreground "magenta3"
                                                                         :weight bold))))
+
+      (add-to-list 'org-export-backends 'beamer)
+
       (org-babel-load-languages                       '((emacs-lisp . t)
                                                         (org        . t)
                                                         (ledger     . t))))

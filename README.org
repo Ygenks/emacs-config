@@ -1178,7 +1178,20 @@ of "Makefile" and "Makefile<2>").
       :config
       (add-hook 'csv-mode-hook 'csv-guess-set-separator))
 #+end_src
-
+** [[https://www.gnu.org/software/poke/][GNU Poke]]
+#+begin_src emacs-lisp :tangle yes :noweb no
+  (use-package poke-mode
+      :straight t
+      :diminish poke
+      :commands (poke-mode))
+#+end_src
+** nhexl-mode
+#+begin_src emacs-lisp :tangle yes :noweb no
+  (use-package poke-mode
+      :straight t
+      :diminish poke
+      :commands (poke-mode))
+#+end_src
 * Non global minor modes
 ** [[https://github.com/antonj/Highlight-Indentation-for-Emacs][Highlight indentation]]                                                                                            :ui:
 Minor modes for highlighting indentation
@@ -2269,6 +2282,18 @@ Search and manage bibliographies in Emacs.
       <<org-download-usepkg>>
       <<org-board-usepkg>>
       <<anki-editor-usepkg>>
+      <<org-web-tools-usepkg>>
+
+      :config
+      (require 'ox-koma-letter)
+
+      (progn
+          (add-to-list 'org-latex-classes
+                       '("my-koma-letter"
+                         "\\documentclass\{scrlttr2\}
+                          \\usepackage[hidelinks,unicode]{hyperref}
+                        [NO-DEFAULT-PACKAGES]")))
+
 
       :custom
       (org-log-done                                   'time)
@@ -3270,6 +3295,18 @@ Emacs minor mode for making Anki cards with Org Mode.
       :straight (:fork "orgtre"))
 #+end_src
 
+** [[https://github.com/alphapapa/org-web-tools][org-web-tools]]
+#+NAME: org-web-tools-system-prerequisites
+#+CAPTION: System prerequisites for org-web-tools package
+- [[https://pandoc.org/installing.html][pandoc]] :: document converter
+
+Convert web page into org-mode file
+#+begin_src emacs-lisp :tangle no :noweb yes :noweb-ref org-web-tools-usepkg
+  (use-package org-web-tools
+      :straight t
+      :after org
+      :bind (("C-c w" . org-web-tools-read-url-as-org)))
+#+end_src
 ** Hook
 #+begin_src emacs-lisp :tangle README-loaddefs.el
   ;;;###autoload
@@ -4311,7 +4348,9 @@ Prerequisites:
 **** [[https://github.com/microsoft/pyright][Pyright]]
 #+begin_src emacs-lisp :tangle no :noweb-ref lsp-pyright-usepkg
   (use-package lsp-pyright
-      :straight t)
+      :straight t
+      :config
+      (setq lsp-pyright-langserver-command "basedpyright"))
 #+end_src
 
 *** Hook
@@ -4338,7 +4377,7 @@ Prerequisites:
       (cond
        ((string-equal ayrc/python-lsp-server "pylsp")   (require 'lsp-pylsp))
        ((string-equal ayrc/python-lsp-server "pyright") (require 'lsp-pyright))
-       ((string-equal ayrc/python-lsp-server "ruff") (require 'lsp-ruff-lsp))
+       ((string-equal ayrc/python-lsp-server "ruff") (require 'lsp-ruff))
        (t   (require 'lsp-pylsp)))
 
       ;; Enable debugging support
